@@ -24,8 +24,7 @@ class BarChart extends Component{
           options={{
             title:{
               display:this.props.displayTitle,
-              text:'Largest Cities In '+this.props.location,
-              fontSize:25
+              text:this.props.location,
             },
             legend:{
               display:this.props.displayLegend,
