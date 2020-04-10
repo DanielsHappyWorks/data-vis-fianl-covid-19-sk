@@ -1,0 +1,37 @@
+@import "../_common/variables.scss";
+
+.padLeft {
+    margin-left: 10px;
+}
+
+.padRight {
+    margin-right: 10px;
+}
+
+.cardIcon {
+    padding: 10px;
+    font-size: 20px;
+    color: #ee6e73;
+}
+
+.iconColor {
+    color: #ee6e73;
+}
+
+.minHeight {
+    min-height: 330px;
+}
+
+.btn-floating {
+    width: 25px !important;
+    height: 25px !important;
+    line-height: 25px !important;
+}
+.lineHight {
+    line-height: 25px !important;
+}
+.overrideIcon {
+    width: 25px !important;
+    height: 25px !important;
+    font-size: 1rem !important;
+}
