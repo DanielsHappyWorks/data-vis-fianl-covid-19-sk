@@ -1,4 +1,4 @@
-import data from './data.json'; https://www.ecdc.europa.eu/
+import data from './data.json'; //https://www.ecdc.europa.eu/
 import countries from './countries.json'; //https://datahub.io/JohnSnowLabs/country-and-continent-codes-list
 import geo_location from './long_lat.json';//https://developers.google.com/public-data/docs/canonical/countries_csv
 
