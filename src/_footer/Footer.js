@@ -1,29 +1,20 @@
 import React from 'react';
-import data from '../data.json';
 import './footer.scss';
 
 class Footer extends React.Component {
   render() {
-    var links = data.socialMediaLinks.map(function (link) {
-      return <li><a class="grey-text text-lighten-3" href={link.link}>{link.name}</a></li>;
-    })
 
     return (
-      <footer class="page-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col l6 s12">
-              <h5 class="white-text">{data.footer.heading}</h5>
-              <p class="grey-text text-lighten-4">{data.footer.content}</p>
+      <footer className="page-footer">
+        <div className="container">
+          <div className="row">
+            <div className="col l6 s12">
             </div>
-            <div class="col l4 offset-l2 s12">
-              <h5 class="white-text">Links</h5>
-              <ul>{links}</ul>
+            <div className="col l4 offset-l2 s12">
             </div>
           </div>
         </div>
-        <div class="footer-copyright">
-          <div class="container">{data.footer.copyright}</div>
+        <div className="footer-copyright">
         </div>
       </footer>
     );

@@ -6,7 +6,6 @@ import InfoCard from '../InfoCard/InfoCard';
 class InfoCardRow extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {};
     }
 
@@ -17,9 +16,9 @@ class InfoCardRow extends Component {
 
     render() {
         return (
-            <div class="row">
+            <div className="row">
                 {Object.keys(this.props.cards).map(key => (
-                    <InfoCard columns={this.props.columns} heading={key} data={this.props.cards[key]} />
+                    <InfoCard key={key} columns={this.props.columns} heading={key} data={this.props.cards[key]} />
                 ))}
             </div>
         )

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import data from '../data.json';
 import './header.scss';
 
 // Import Materialize
@@ -17,8 +16,8 @@ class SuperCoolComponent extends Component {
     return (
       <header>
         <nav>
-          <div class="nav-wrapper">
-            <a href="#" class="brand-logo center">COVID-19</a>
+          <div className="nav-wrapper">
+            <div className="brand-logo center">COVID-19</div>
           </div>
         </nav>
       </header>

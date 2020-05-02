@@ -16,20 +16,15 @@ class Content extends Component {
     
   }
 
-  componentWillMount() {
+  componentDidMount() {
     var data = Data.initialiseData();
-    console.log(data)
     data.then(function (map) {
-      console.log(map)
       this.setState({
         isLoggedIn: true,
         dataMap: map
       });
     }.bind(this));
-  }
 
-  componentDidMount() {
-    // Auto initialize all the things!
     M.AutoInit();
   }
 

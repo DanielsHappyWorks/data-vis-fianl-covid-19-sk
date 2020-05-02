@@ -26,15 +26,23 @@ const Data = {
 
   getDataMap: function (response) {
     var countryMap = new Map();
+    var exclusionList = [];
     response.records.forEach(element => {
-      var continentCode = "Other";
-      var continentName = "Other";
+      var continentCode = undefined;
+      var continentName = undefined;
+
+      var latitude = undefined;
+      var longitude = undefined;
+
+      geo_location.forEach(location => {
+        if ((location.country === element.geoId || location.name === element.countriesAndTerritories.replace(/_/g, " "))) {
+          latitude = location.latitude;
+          longitude = location.longitude;
+        }
+      })
 
       countries.forEach(country => {
-        if ((country.Three_Letter_Country_Code === element.countryterritoryCode)) {
-          continentCode = country.Continent_Code;
-          continentName = country.Continent_Name;
-        } else if (element.countryterritoryCode === "" && country.Two_Letter_Country_Code === element.geoId) {
+        if (country.Three_Letter_Country_Code === element.countryterritoryCode || country.Two_Letter_Country_Code === element.geoId || country.Continent_Name === element.continentExp) {
           continentCode = country.Continent_Code;
           continentName = country.Continent_Name;
         }
@@ -43,13 +51,21 @@ const Data = {
       element["continentCode"] = continentCode;
       element["continentName"] = continentName;
 
-      if (countryMap.get(element.countriesAndTerritories) !== undefined) {
-        countryMap.get(element.countriesAndTerritories).push(element);
+      element["latitude"] = latitude;
+      element["longitude"] = longitude;
+
+      if(element["latitude"] && element["longitude"] && element["continentCode"] && element["continentName"]) {
+        if (countryMap.get(element.countriesAndTerritories) !== undefined) {
+          countryMap.get(element.countriesAndTerritories).push(element);
+        } else {
+          countryMap.set(element.countriesAndTerritories, [element]);
+        }
       } else {
-        countryMap.set(element.countriesAndTerritories, [element]);
+        exclusionList.push(element);
       }
     });
 
+    console.log("Failed to add following to data:", exclusionList);
     console.log(countryMap);
     return countryMap;
   },

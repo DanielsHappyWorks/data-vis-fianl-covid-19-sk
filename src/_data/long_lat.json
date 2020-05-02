@@ -1468,5 +1468,29 @@
    "latitude": -19.015438,
    "longitude": 29.154857,
    "name": "Zimbabwe"
+ },
+ {
+  "country": "CW",
+  "latitude": 12.1696,
+  "longitude": 68.9900,
+  "name": "Curaçao"
+ },
+ {
+  "country": "SS",
+  "latitude": 6.8770,
+  "longitude": 31.3070,
+  "name": "South Sudan"
+ },
+ {
+  "country": "SX",
+  "latitude": 18.0425,
+  "longitude": 63.0548,
+  "name": "Sint Maarten"
+ },
+ {
+  "country": "BQ",
+  "latitude": 12.1784,
+  "longitude": 68.2385,
+  "name": "Bonaire, Saint Eustatius and Saba"
  }
 ]

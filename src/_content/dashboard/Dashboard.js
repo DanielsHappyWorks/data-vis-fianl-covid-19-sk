@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import M from "materialize-css";
+import MapChart from '../../charts/MapChart';
 import PieChart from '../../charts/PieChart';
 import LineChart from '../../charts/LineChart';
 import BarChart from '../../charts/BarChart';
@@ -16,7 +17,6 @@ class Dashboard extends Component {
     var country = Array.from(this.props.dataMap.keys()).includes(name) ? name : "South_Korea";
 
     this.state = this.createState(country);
-    console.log("Frist state ", this.state);
   }
 
   createState(country) {
@@ -30,7 +30,7 @@ class Dashboard extends Component {
         labels: [],
         datasets: [
           {
-            label: 'Death My Boi',
+            label: 'Cases',
             data: [],
             backgroundColor: [
               'rgba(255, 99, 132, 0.6)',
@@ -49,7 +49,7 @@ class Dashboard extends Component {
     newState["country"] = country;
 
     DataProcessor.setData(this.props.dataMap, country);
-    newState = DataProcessor.getThisFuckery(newState);
+    newState = DataProcessor.updateDashboardState(newState);
     newState["data"] = DataProcessor.getData();
     newState["col"] = {
       "two": "col s12 m12 l6",
@@ -65,21 +65,19 @@ class Dashboard extends Component {
     M.AutoInit();
 
     var elem = document.querySelector('.collapsible.expandable');
-    var instance = M.Collapsible.init(elem, {
+    M.Collapsible.init(elem, {
       accordion: false
     });
 
     document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('.autocomplete');
-      var instances = M.Autocomplete.init(elems, {
+      M.Autocomplete.init(elems, {
         data: this.state.countriesForAutoComplete,
         onAutocomplete: function (wat) {
-          console.log(wat);
           DataProcessor.setData(this.props.dataMap, wat);
           this.setState(this.createState(wat));
         }.bind(this)
       });
-      console.log("WTF mutch ", this.state.countries)
     }.bind(this));
   }
 
@@ -93,48 +91,59 @@ class Dashboard extends Component {
     }
     return (
       <main>
-        <div class="container">
+        <div className="container">
 
-          <h3 class="header">Global Data</h3>
+          <h3 className="header">Global Data</h3>
           <blockquote>
-            This is an example quotation that uses the blockquote tag.
+            Shows the global data for Covid-19
           </blockquote>
-          <div class="row">
+          <div className="row">
             <InfoCardRow columns={this.state.col.two} cards={this.state.data.global.totalCases} />
             <InfoCardRow columns={this.state.col.three} cards={this.state.data.global.totalDeaths} />
-            <div class={this.state.col.two}>
-              <ul class="collapsible expandable">
-                <li class="active">
-                  <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
-                  <div class="collapsible-body"><LineChart chartData={this.state.chartData} location="line" legendPosition="bottom" /></div>
+            <div className={this.state.col.one}>
+              <ul className="collapsible expandable">
+                <li className="active">
+                  <div className="collapsible-header"><i className="material-icons">filter_drama</i>World Map</div>
+                  <div className="collapsible-body"><MapChart chartData={this.state.data.global.worldMapData} /></div>
                 </li>
-              </ul></div>
-            <div class={this.state.col.two}>
-              <ul class="collapsible expandable">
-                <li>
-                  <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
-                  <div class="collapsible-body"><BarChart chartData={this.state.chartData} location="bar" legendPosition="bottom" /></div>
+              </ul>
+            </div>
+            <div className={this.state.col.two}>
+              <ul className="collapsible expandable">
+                <li className="active">
+                  <div className="collapsible-header"><i className="material-icons">filter_drama</i>First</div>
+                  <div className="collapsible-body"><LineChart chartData={this.state.chartData} location="line" legendPosition="bottom" /></div>
                 </li>
-              </ul></div>
-            <div class={this.state.col.two}>
-              <ul class="collapsible expandable">
-                <li>
-                  <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
-                  <div class="collapsible-body"><PieChart chartData={this.state.chartData} location="pie" legendPosition="bottom" /></div>
+              </ul>
+            </div>
+            <div className={this.state.col.two}>
+              <ul className="collapsible expandable">
+                <li className="active">
+                  <div className="collapsible-header"><i className="material-icons">place</i>Second</div>
+                  <div className="collapsible-body"><BarChart chartData={this.state.chartData} location="bar" legendPosition="bottom" /></div>
                 </li>
-              </ul></div>
+              </ul>
+            </div>
+            <div className={this.state.col.two}>
+              <ul className="collapsible expandable">
+                <li className="active">
+                  <div className="collapsible-header"><i className="material-icons">whatshot</i>Third</div>
+                  <div className="collapsible-body"><PieChart chartData={this.state.chartData} location="pie" legendPosition="bottom" /></div>
+                </li>
+              </ul>
+            </div>
           </div>
-          <h3 class="header">Country Data: {this.state.country}</h3>
+          <h3 className="header">Country Data: {this.state.country.replace(/_/g, " ")}</h3>
           <blockquote>
-            This is an example quotation that uses the blockquote tag.
+            Shows the data for {this.state.country.replace(/_/g, " ")} on Covid-19
           </blockquote>
-          <div class="row">
-            <div class="col s12">
-              <div class="row">
-                <div class="input-field col s12">
-                  <i class="material-icons prefix">textsms</i>
-                  <input type="text" id="autocomplete-input" class="autocomplete" />
-                  <label for="autocomplete-input">Autocomplete</label>
+          <div className="row">
+            <div className="col s12">
+              <div className="row">
+                <div className="input-field col s12">
+                  <i className="material-icons prefix">textsms</i>
+                  <input type="text" id="autocomplete-input" className="autocomplete" />
+                  <label htmlFor="autocomplete-input">Autocomplete</label>
                 </div>
               </div>
             </div>
