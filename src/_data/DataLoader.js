@@ -70,7 +70,8 @@ const Data = {
   },
 
   shouldGetDataFromFile: function () {
-    if(window.location.pathname === "/covid_19/live") {
+    var params = (new URL(document.location)).searchParams;
+    if(params.get("live") === "true") {
       return false;
     }
     return true;
