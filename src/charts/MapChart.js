@@ -46,7 +46,7 @@ class MapChart extends Component {
     };
   }
 
-  handleClick(lol, sa) {
+  handleClick() {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems);
     var newSate = instances[0].getSelectedValues()[0];
@@ -59,12 +59,12 @@ class MapChart extends Component {
   render() {
     return (
       <div>
-        <div class="input-field col s12">
+        <div className="input-field col s12">
           <select onChange={this.handleClick.bind(this)}>
-            <option value="1" selected>Display Total Cases</option>
-            <option value="3">Display Recent Cases</option>
-            <option value="2">Display Total Deaths</option>
-            <option value="4">Display Recent Deaths</option>
+            <option value="1" defaultValue>Total Cases</option>
+            <option value="3">Recent Cases</option>
+            <option value="2">Total Deaths</option>
+            <option value="4">Recent Deaths</option>
           </select>
           <label>Select Map</label>
         </div>

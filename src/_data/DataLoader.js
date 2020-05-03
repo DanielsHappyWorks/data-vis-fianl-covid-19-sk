@@ -66,12 +66,11 @@ const Data = {
     });
 
     console.log("Failed to add following to data:", exclusionList);
-    console.log(countryMap);
     return countryMap;
   },
 
   shouldGetDataFromFile: function () {
-    if(window.location.pathname === "/live") {
+    if(window.location.pathname === "/covid_19/live") {
       return false;
     }
     return true;

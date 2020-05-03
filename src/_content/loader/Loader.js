@@ -1,8 +1,11 @@
 import React from 'react'
+import './loader.scss';
 
 const LoaderExampleText = () => (
   <div>
-    LOADING DATA
+    <center>
+      <div class="loader"></div>
+    </center>
   </div>
 )
 

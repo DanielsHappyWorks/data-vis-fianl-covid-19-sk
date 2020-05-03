@@ -2,6 +2,7 @@ const Data = {
   data: undefined,
 
   setData: function (newData, country) {
+    //Mon Apr 13 2020 00:00:00 GMT+0100 <- non live data
     this.data = {
       "map": newData,
       "global": {
@@ -17,11 +18,15 @@ const Data = {
         "worldMapData": this.getWorldMapData(newData),
         "continent": {
           "cases": this.getCountersPerValue(newData, 'continentName', 'cases'),
-          "deaths": this.getCountersPerValue(newData, 'continentName', 'deaths')
+          "deaths": this.getCountersPerValue(newData, 'continentName', 'deaths'),
+          "recentCases": this.getCountersPerValueLatest(newData, 'continentName', 'cases'),
+          "recentDeaths": this.getCountersPerValueLatest(newData, 'continentName', 'deaths')
         },
         "country": {
           "cases": this.getCountersPerValue(newData, 'countriesAndTerritories', 'cases'),
-          "deaths": this.getCountersPerValue(newData, 'countriesAndTerritories', 'deaths')
+          "deaths": this.getCountersPerValue(newData, 'countriesAndTerritories', 'deaths'),
+          "recentCases": this.getCountersPerValueLatest(newData, 'countriesAndTerritories', 'cases'),
+          "recentDeaths": this.getCountersPerValueLatest(newData, 'countriesAndTerritories', 'deaths')
         }
       },
       "country": {
@@ -36,7 +41,6 @@ const Data = {
         },
       }
     }
-    console.log(this.data)
   },
 
   getData: function () {
@@ -65,12 +69,18 @@ const Data = {
 
   getCountersPerValueLatest: function (data, itemToCount, value) {
     var counter = new Map()
+    var mostRecentDate = new Date(1999, 1, 1);
     data.forEach(element => {
-      var mostRecentDate = new Date(1999, 1, 1);
       element.forEach(listItem => {
         if (mostRecentDate < new Date(parseInt(listItem.year), parseInt(listItem.month - 1), parseInt(listItem.day))) {
           mostRecentDate = new Date(parseInt(listItem.year), parseInt(listItem.month - 1), parseInt(listItem.day));
           counter.set(listItem[itemToCount], parseInt(listItem[value]));
+        } else if (mostRecentDate.getTime() === new Date(parseInt(listItem.year), parseInt(listItem.month - 1), parseInt(listItem.day)).getTime()) {
+          if (counter.get(listItem[itemToCount]) !== undefined) {
+            counter.set(listItem[itemToCount], counter.get(listItem[itemToCount]) + parseInt(listItem[value]));
+          } else {
+            counter.set(listItem[itemToCount], parseInt(listItem[value]));
+          }
         }
       });
     });
@@ -101,7 +111,6 @@ const Data = {
       recentDeathsTracker.push(transformedElem.recentDeaths);
       worldData.push(transformedElem)
     });
-    console.log(totalCasesTracker, Math.min.apply(null, totalCasesTracker))
     worldData.forEach(element => {
       element.totalCasesMinMax = this.normalizeBetweenTwoRanges(element.totalCases, Math.min.apply(null, totalCasesTracker), Math.max.apply(null, totalCasesTracker), 5, 100);
       element.totalDeathsMinMax = this.normalizeBetweenTwoRanges(element.totalDeaths, Math.min.apply(null, totalDeathsTracker), Math.max.apply(null, totalDeathsTracker), 5, 100);
