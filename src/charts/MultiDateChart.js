@@ -7,7 +7,6 @@ class MultiChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartData: this.getDataAsChartData(props.chartData),
       chart: "1"
     }
   }
@@ -53,11 +52,11 @@ class MultiChart extends Component {
   getChart(chart) {
     if (chart === "1") {
       return <Bar
-        data={this.state.chartData}
+        data={this.getDataAsChartData(this.props.chartData)}
         options={{
           title: {
             display: this.props.displayTitle,
-            text: this.props.title + "- Bar Chart",
+            text: this.props.title + " - Bar Chart",
           },
           legend: {
             display: false,
@@ -68,11 +67,11 @@ class MultiChart extends Component {
     }
     else if (chart === "2") {
       return <Line
-        data={this.state.chartData}
+        data={this.getDataAsChartData(this.props.chartData)}
         options={{
           title: {
             display: this.props.displayTitle,
-            text: this.props.title + "- Line Chart",
+            text: this.props.title + " - Line Chart",
           },
           legend: {
             display: false,
@@ -83,11 +82,11 @@ class MultiChart extends Component {
     }
     else if (chart === "3") {
       return <Bar
-        data={this.state.chartData}
+        data={this.getDataAsChartData(this.props.chartData)}
         options={{
           title: {
             display: this.props.displayTitle,
-            text: this.props.title + "- Line Chart",
+            text: this.props.title + " - Line Chart",
           },
           legend: {
             display: false,
@@ -107,11 +106,11 @@ class MultiChart extends Component {
     }
     else if (chart === "4") {
       return <Line
-        data={this.state.chartData}
+        data={this.getDataAsChartData(this.props.chartData)}
         options={{
           title: {
             display: this.props.displayTitle,
-            text: this.props.title + "- Line Chart",
+            text: this.props.title + " - Line Chart",
           },
           legend: {
             display: false,
@@ -137,10 +136,10 @@ class MultiChart extends Component {
       <div>
         <div className="input-field col s12">
           <select id={this.props.id + 'select'} onChange={this.handleClick.bind(this)}>
-            <option value="1" defaultValue>{this.props.title} - Bar Chart</option>
-            <option value="2">{this.props.title} - Line Chart</option>
-            <option value="3">{this.props.title} - Logrithmic Bar Chart</option>
-            <option value="4">{this.props.title} - Logrithmic Line Chart</option>
+            <option value="1" defaultValue>{this.props.titleDD} - Bar Chart</option>
+            <option value="2">{this.props.titleDD} - Line Chart</option>
+            <option value="3">{this.props.titleDD} - Logrithmic Bar Chart</option>
+            <option value="4">{this.props.titleDD} - Logrithmic Line Chart</option>
           </select>
           <label>Select Chart</label>
         </div>

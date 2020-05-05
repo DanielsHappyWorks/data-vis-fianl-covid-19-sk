@@ -37,6 +37,7 @@ class Dashboard extends Component {
       "four": "col s12 m6 l3",
       "five": "col s12 m6 l2"
     }
+    console.log(newState);
     return newState;
   }
 
@@ -89,7 +90,6 @@ class Dashboard extends Component {
     return (
       <main>
         <div className="container">
-
           <h3 className="header">Global Data</h3>
           <blockquote>
             Shows the global data for Covid-19
@@ -167,19 +167,19 @@ class Dashboard extends Component {
             <ul className="collapsible">
               <li className="active">
                 <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Cumulative Cases over time for {this.state.country.replace(/_/g, " ")}</div>
-                <div className="collapsible-body"><MultiDateChart id="country_cumulative_cases" color='rgba(43,177,26, 0.6)' chartData={this.state.data.country.cumulative.cases} title="Cumulative Cases" legendPosition="bottom" /></div>
+                <div className="collapsible-body"><MultiDateChart id="country_cumulative_cases" color='rgba(43,177,26, 0.6)' chartData={this.state.data.country.cumulative.cases} titleDD="Cumulative Cases" title={"Cumulative Cases (" + this.state.country.replace(/_/g, " ") + ")"} legendPosition="bottom" /></div>
               </li>
               <li className="">
                 <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Cumulative Deaths over time for {this.state.country.replace(/_/g, " ")}</div>
-                <div className="collapsible-body"><MultiDateChart id="country_cumulative_deaths" color='rgba(205,175,28, 0.6)' chartData={this.state.data.country.cumulative.deaths} title="Cumulative Deaths" legendPosition="bottom" /></div>
+                <div className="collapsible-body"><MultiDateChart id="country_cumulative_deaths" color='rgba(205,175,28, 0.6)' chartData={this.state.data.country.cumulative.deaths} titleDD="Cumulative Deaths" title={"Cumulative Deaths (" + this.state.country.replace(/_/g, " ") + ")"} legendPosition="bottom" /></div>
               </li>
               <li className="">
                 <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Daily Cases for {this.state.country.replace(/_/g, " ")}</div>
-                <div className="collapsible-body"><MultiDateChart id="country_daily_cases" color='rgba(28,142,205, 0.6)' chartData={this.state.data.country.daily.cases} title="Daily Cases" legendPosition="bottom" /></div>
+                <div className="collapsible-body"><MultiDateChart id="country_daily_cases" color='rgba(28,142,205, 0.6)' chartData={this.state.data.country.daily.cases} titleDD="Daily Cases" title={"Daily Cases (" + this.state.country.replace(/_/g, " ") + ")"} legendPosition="bottom" /></div>
               </li>
               <li className="">
                 <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Daily Deaths for {this.state.country.replace(/_/g, " ")}</div>
-                <div className="collapsible-body"><MultiDateChart id="country_daily_deaths" color='rgba(199,0,57, 0.6)' chartData={this.state.data.country.daily.cases} title="Daily Deaths" legendPosition="bottom" /></div>
+                <div className="collapsible-body"><MultiDateChart id="country_daily_deaths" color='rgba(199,0,57, 0.6)' chartData={this.state.data.country.daily.cases} titleDD="Daily Deaths" title={"Daily Deaths (" + this.state.country.replace(/_/g, " ") + ")"} legendPosition="bottom" /></div>
               </li>
             </ul>
           </div>

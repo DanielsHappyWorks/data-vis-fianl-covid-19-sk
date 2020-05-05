@@ -7,7 +7,6 @@ class MultiChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartData: this.getDataAsChartData(props.chartData, props.limit),
       chart: "1"
     }
   }
@@ -81,7 +80,7 @@ class MultiChart extends Component {
   getChart(chart) {
     if (chart === "1") {
       return <Bar
-        data={this.state.chartData}
+        data={this.getDataAsChartData(this.props.chartData, this.props.limit)}
         options={{
           title: {
             display: this.props.displayTitle,
@@ -96,7 +95,7 @@ class MultiChart extends Component {
     }
     else if (chart === "2") {
       return <Pie
-        data={this.state.chartData}
+        data={this.getDataAsChartData(this.props.chartData, this.props.limit)}
         options={{
           title: {
             display: this.props.displayTitle,
@@ -111,7 +110,7 @@ class MultiChart extends Component {
     }
     else if (chart === "3") {
       return <Doughnut
-        data={this.state.chartData}
+        data={this.getDataAsChartData(this.props.chartData, this.props.limit)}
         options={{
           cutoutPercentage: 50,
           title: {
@@ -127,7 +126,7 @@ class MultiChart extends Component {
     }
     else if (chart === "4") {
       return <Polar
-        data={this.state.chartData}
+        data={this.getDataAsChartData(this.props.chartData, this.props.limit)}
         options={{
           title: {
             display: this.props.displayTitle,
@@ -142,7 +141,7 @@ class MultiChart extends Component {
     }
     else if (chart === "5") {
       return <Line
-        data={this.state.chartData}
+        data={this.getDataAsChartData(this.props.chartData, this.props.limit)}
         options={{
           title: {
             display: this.props.displayTitle,
