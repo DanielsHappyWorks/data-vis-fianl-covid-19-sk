@@ -13,12 +13,12 @@ class Dashboard extends Component {
 
     var params = (new URL(document.location)).searchParams;
     var name = params.get("country");
-    var country = Array.from(this.props.dataMap.keys()).includes(name) ? name : "South_Korea";
+    var countries = name && name.length > 0 ? name.split(",") : ["South_Korea"];
 
-    this.state = this.createState(country);
+    this.state = this.createState(countries);
   }
 
-  createState(country) {
+  createState(countries) {
     var countriesForAutoComplete = Object.fromEntries(this.props.dataMap);
     Object.keys(countriesForAutoComplete).forEach(k => countriesForAutoComplete[k] = null)
 
@@ -27,9 +27,14 @@ class Dashboard extends Component {
       countriesForAutoComplete: countriesForAutoComplete,
     }
 
-    newState["country"] = country;
+    newState["country"] = countries.join(", ");
+    newState["chips"] = countries.map(function(country){
+      return {
+        tag: country
+      }
+    });
 
-    DataProcessor.setData(this.props.dataMap, country);
+    DataProcessor.setData(this.props.dataMap, countries);
     newState["data"] = DataProcessor.getData();
     newState["col"] = {
       "two": "col s12 m12 l6",
@@ -37,7 +42,6 @@ class Dashboard extends Component {
       "four": "col s12 m6 l3",
       "five": "col s12 m6 l2"
     }
-    console.log(newState);
     return newState;
   }
 
@@ -50,13 +54,32 @@ class Dashboard extends Component {
       accordion: false
     });
 
-    var elems = document.querySelectorAll('.autocomplete');
-    M.Autocomplete.init(elems, {
-      data: this.state.countriesForAutoComplete,
-      onAutocomplete: function (wat) {
-        DataProcessor.setData(this.props.dataMap, wat);
-        this.setState(this.createState(wat));
-      }.bind(this)
+    var elems = document.querySelectorAll('.chips');
+    M.Chips.init(elems, {
+      data: this.state.chips,
+      autocompleteOptions: {
+        data: this.state.countriesForAutoComplete,
+      },
+      placeholder: 'Previous Country Set',
+      secondaryPlaceholder: "Select a Country",
+      onChipAdd: function (event) {
+        var currentChips = event[0].M_Chips.chipsData.map(function(obj) {
+          return obj.tag;
+        });
+        DataProcessor.setData(this.props.dataMap, currentChips);
+        this.setState(this.createState(currentChips));
+      }.bind(this),
+      onChipDelete: function (event) {
+        var currentChips = event[0].M_Chips.chipsData.map(function(obj) {
+          return obj.tag;
+        });
+        if (!currentChips || currentChips.length === 0) {
+          currentChips = ["South_Korea"];
+          return;
+        }
+        DataProcessor.setData(this.props.dataMap, currentChips);
+        this.setState(this.createState(currentChips));
+      }.bind(this),
     });
   }
 
@@ -69,16 +92,17 @@ class Dashboard extends Component {
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-      var elems = document.querySelectorAll('.autocomplete');
-      M.Autocomplete.init(elems, {
+      var elems = document.querySelectorAll('.chips');
+      var instances = M.Chips.init(elems, {
         data: this.state.countriesForAutoComplete,
+        placeholder: 'Enter a tag',
         onAutocomplete: function (wat) {
           DataProcessor.setData(this.props.dataMap, wat);
           this.setState(this.createState(wat));
         }.bind(this)
       });
     }.bind(this));
-  }
+}
 
   render() {
     this.cards = {
@@ -148,15 +172,13 @@ class Dashboard extends Component {
           </div>
           <h3 className="header">Country Data: {this.state.country.replace(/_/g, " ")}</h3>
           <blockquote>
-            Shows the data for {this.state.country.replace(/_/g, " ")} on Covid-19
+            Shows the data for {this.state.country.replace(/_/g, " ")} on Covid-19.
           </blockquote>
           <div className="row">
             <div className="col s12">
               <div className="row">
                 <div className="input-field col s12">
-                  <i className="material-icons prefix">textsms</i>
-                  <input type="text" id="autocomplete-input" className="autocomplete" />
-                  <label htmlFor="autocomplete-input">Autocomplete</label>
+                  <div class="chips chips-autocomplete"></div>
                 </div>
               </div>
             </div>

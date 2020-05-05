@@ -1,7 +1,7 @@
 const Data = {
   data: undefined,
 
-  setData: function (newData, country) {
+  setData: function (newData, countries) {
     this.data = {
       "map": newData,
       "global": {
@@ -30,21 +30,21 @@ const Data = {
       },
       "country": {
         "totalCases": {
-          "Total Cases": Number(this.getTotal(newData, 'cases', country)).toLocaleString(),
-          "Recent Cases": Number(this.getLatest(newData, 'cases', country)).toLocaleString()
+          "Total Cases": Number(this.getTotal(newData, 'cases', countries)).toLocaleString(),
+          "Recent Cases": Number(this.getLatest(newData, 'cases', countries)).toLocaleString()
         },
         "totalDeaths": {
-          "Total Deaths": Number(this.getTotal(newData, 'deaths', country)).toLocaleString(),
-          "Recent Deaths": Number(this.getLatest(newData, 'deaths', country)).toLocaleString(),
-          "Mortality Rate": Number(this.getMortality(newData, country)).toLocaleString() + "%"
+          "Total Deaths": Number(this.getTotal(newData, 'deaths', countries)).toLocaleString(),
+          "Recent Deaths": Number(this.getLatest(newData, 'deaths', countries)).toLocaleString(),
+          "Mortality Rate": Number(this.getMortality(newData, countries)).toLocaleString() + "%"
         },
         "cumulative": {
-          "cases": this.getCumulative(this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'cases', country))),
-          "deaths": this.getCumulative(this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'deaths', country))),
+          "cases": this.getCumulative(this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'cases', countries))),
+          "deaths": this.getCumulative(this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'deaths', countries))),
         },
         "daily": {
-          "cases": this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'cases', country)),
-          "deaths": this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'deaths', country)),
+          "cases": this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'cases', countries)),
+          "deaths": this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'deaths', countries)),
         }
       }
     }
@@ -64,7 +64,7 @@ const Data = {
     var counter = new Map()
     data.forEach(element => {
       element.forEach(listItem => {
-        if ((country === undefined || country === listItem.countriesAndTerritories)) {
+        if ((country === undefined || country.includes(listItem.countriesAndTerritories))) {
           if (counter.get(listItem[itemToGroupBy]) !== undefined) {
             counter.set(listItem[itemToGroupBy], counter.get(listItem[itemToGroupBy]) + parseInt(listItem[itemToCount]));
           } else {
@@ -165,7 +165,7 @@ const Data = {
     var counter = 0
     data.forEach(element => {
       element.forEach(listItem => {
-        if (country === undefined || country === listItem.countriesAndTerritories) {
+        if (country === undefined || country.includes(listItem.countriesAndTerritories)) {
           counter += parseInt(listItem[value])
         }
       });
@@ -179,7 +179,7 @@ const Data = {
       var mostRecentDate = new Date(1999, 1, 1);
       var mostRecentCase = 0
       element.forEach(listItem => {
-        if ((mostRecentDate < new Date(parseInt(listItem.year), parseInt(listItem.month - 1), parseInt(listItem.day))) && (country === undefined || country === listItem.countriesAndTerritories)) {
+        if ((mostRecentDate < new Date(parseInt(listItem.year), parseInt(listItem.month - 1), parseInt(listItem.day))) && (country === undefined || country.includes(listItem.countriesAndTerritories))) {
           mostRecentDate = new Date(parseInt(listItem.year), parseInt(listItem.month - 1), parseInt(listItem.day));
           mostRecentCase = parseInt(listItem[value]);
         }
