@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "cb6e70123f2f343e448bcbe91e5282d1",
+    "revision": "f6a3718279e4af33fdb09d784939010b",
     "url": "/data-vis-fianl-covid-19-sk/index.html"
   },
   {
-    "revision": "66701ed535a23e035930",
+    "revision": "b14586ef15a7f0177777",
     "url": "/data-vis-fianl-covid-19-sk/static/css/2.d0fd96af.chunk.css"
   },
   {
-    "revision": "9d4996c3d7f981f89957",
+    "revision": "91fc5aa2ce22909f0778",
     "url": "/data-vis-fianl-covid-19-sk/static/css/main.c2d19781.chunk.css"
   },
   {
-    "revision": "66701ed535a23e035930",
-    "url": "/data-vis-fianl-covid-19-sk/static/js/2.df8aaf9a.chunk.js"
+    "revision": "b14586ef15a7f0177777",
+    "url": "/data-vis-fianl-covid-19-sk/static/js/2.04f18ebc.chunk.js"
   },
   {
-    "revision": "9d4996c3d7f981f89957",
-    "url": "/data-vis-fianl-covid-19-sk/static/js/main.93d2faa1.chunk.js"
+    "revision": "91fc5aa2ce22909f0778",
+    "url": "/data-vis-fianl-covid-19-sk/static/js/main.5c9c521c.chunk.js"
   },
   {
     "revision": "5d192936151963c5a246",
