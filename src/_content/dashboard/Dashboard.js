@@ -28,7 +28,7 @@ class Dashboard extends Component {
     }
 
     newState["country"] = countries.join(", ");
-    newState["chips"] = countries.map(function(country){
+    newState["chips"] = countries.map(function (country) {
       return {
         tag: country
       }
@@ -63,14 +63,14 @@ class Dashboard extends Component {
       placeholder: 'Previous Country Set',
       secondaryPlaceholder: "Select a Country",
       onChipAdd: function (event) {
-        var currentChips = event[0].M_Chips.chipsData.map(function(obj) {
+        var currentChips = event[0].M_Chips.chipsData.map(function (obj) {
           return obj.tag;
         });
         DataProcessor.setData(this.props.dataMap, currentChips);
         this.setState(this.createState(currentChips));
       }.bind(this),
       onChipDelete: function (event) {
-        var currentChips = event[0].M_Chips.chipsData.map(function(obj) {
+        var currentChips = event[0].M_Chips.chipsData.map(function (obj) {
           return obj.tag;
         });
         if (!currentChips || currentChips.length === 0) {
@@ -93,7 +93,7 @@ class Dashboard extends Component {
 
     document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('.chips');
-      var instances = M.Chips.init(elems, {
+      M.Chips.init(elems, {
         data: this.state.countriesForAutoComplete,
         placeholder: 'Enter a tag',
         onAutocomplete: function (wat) {
@@ -102,7 +102,7 @@ class Dashboard extends Component {
         }.bind(this)
       });
     }.bind(this));
-}
+  }
 
   render() {
     this.cards = {
