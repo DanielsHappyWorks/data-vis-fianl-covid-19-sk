@@ -4,7 +4,7 @@ import './loader.scss';
 const LoaderExampleText = () => (
   <div>
     <center>
-      <div class="loader"></div>
+      <div className="loader"></div>
     </center>
   </div>
 )

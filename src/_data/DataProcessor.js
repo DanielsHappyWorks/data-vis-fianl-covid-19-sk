@@ -2,7 +2,6 @@ const Data = {
   data: undefined,
 
   setData: function (newData, country) {
-    //Mon Apr 13 2020 00:00:00 GMT+0100 <- non live data
     this.data = {
       "map": newData,
       "global": {
@@ -39,6 +38,14 @@ const Data = {
           "Recent Deaths": Number(this.getLatest(newData, 'deaths', country)).toLocaleString(),
           "Mortality Rate": Number(this.getMortality(newData, country)).toLocaleString() + "%"
         },
+        "cumulative": {
+          "cases": this.getCumulative(this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'cases', country))),
+          "deaths": this.getCumulative(this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'deaths', country))),
+        },
+        "daily": {
+          "cases": this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'cases', country)),
+          "deaths": this.sortByData(this.getCountersPerValue(newData, 'dateRep', 'deaths', country)),
+        }
       }
     }
   },
@@ -53,18 +60,42 @@ const Data = {
     return newState;
   },
 
-  getCountersPerValue: function (data, itemToGroupBy, itemToCount) {
+  getCountersPerValue: function (data, itemToGroupBy, itemToCount, country) {
     var counter = new Map()
     data.forEach(element => {
       element.forEach(listItem => {
-        if (counter.get(listItem[itemToGroupBy]) !== undefined) {
-          counter.set(listItem[itemToGroupBy], counter.get(listItem[itemToGroupBy]) + parseInt(listItem[itemToCount]));
-        } else {
-          counter.set(listItem[itemToGroupBy], parseInt(listItem[itemToCount]));
+        if ((country === undefined || country === listItem.countriesAndTerritories)) {
+          if (counter.get(listItem[itemToGroupBy]) !== undefined) {
+            counter.set(listItem[itemToGroupBy], counter.get(listItem[itemToGroupBy]) + parseInt(listItem[itemToCount]));
+          } else {
+            counter.set(listItem[itemToGroupBy], parseInt(listItem[itemToCount]));
+          }
         }
       });
     });
     return counter;
+  },
+
+  sortByData: function (valMap) {
+    var keys = Array.from(valMap.keys()).reverse();
+    var values = Array.from(valMap.values()).reverse();
+
+    return {
+      keys: keys,
+      values: values,
+    };
+  },
+
+  getCumulative: function (valMap) {
+    var cumulativeValue = 0;
+    valMap.values.forEach((value, key) => {
+      cumulativeValue = cumulativeValue + value;
+      valMap.values[key] = cumulativeValue;
+    });
+    return {
+      keys: valMap.keys,
+      values: valMap.values,
+    };
   },
 
   getCountersPerValueLatest: function (data, itemToCount, value) {
@@ -90,8 +121,8 @@ const Data = {
   getWorldMapData: function (data) {
     var cases = this.getCountersPerValue(data, 'countriesAndTerritories', 'cases');
     var deaths = this.getCountersPerValue(data, 'countriesAndTerritories', 'deaths');
-    var recentCases =  this.getCountersPerValueLatest(data, 'countriesAndTerritories', 'cases');
-    var deathsCases =  this.getCountersPerValueLatest(data, 'countriesAndTerritories', 'deaths');
+    var recentCases = this.getCountersPerValueLatest(data, 'countriesAndTerritories', 'cases');
+    var deathsCases = this.getCountersPerValueLatest(data, 'countriesAndTerritories', 'deaths');
     var worldData = []
     var totalCasesTracker = [];
     var totalDeathsTracker = [];

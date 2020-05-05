@@ -101,6 +101,9 @@ class MapChart extends Component {
                 </CircleMarker>
               )
             }
+            else {
+              return '';
+            } 
           }
           )}
         </Map>

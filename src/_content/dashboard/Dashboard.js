@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import M from "materialize-css";
 import MapChart from '../../charts/MapChart';
 import MultiChart from '../../charts/MultiChart';
-import LineChart from '../../charts/LineChart';
-import BarChart from '../../charts/BarChart';
+import MultiDateChart from '../../charts/MultiDateChart';
 import DataProcessor from '../../_data/DataProcessor'
 import InfoCardRow from '../widget/InfoCardRow/InfoCardRow'
 
@@ -26,24 +25,6 @@ class Dashboard extends Component {
     var newState = {
       countries: Array.from(this.props.dataMap.keys()),
       countriesForAutoComplete: countriesForAutoComplete,
-      chartData: {
-        labels: [],
-        datasets: [
-          {
-            label: 'Cases',
-            data: [],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.6)',
-              'rgba(54, 162, 235, 0.6)',
-              'rgba(255, 206, 86, 0.6)',
-              'rgba(75, 192, 192, 0.6)',
-              'rgba(153, 102, 255, 0.6)',
-              'rgba(255, 159, 64, 0.6)',
-              'rgba(255, 99, 132, 0.6)'
-            ]
-          }
-        ]
-      }
     }
 
     newState["country"] = country;
@@ -98,52 +79,6 @@ class Dashboard extends Component {
     }.bind(this));
   }
 
-  getDataAsChartData(data, limit) {
-    var chartData = {
-      labels: [],
-      datasets: [
-        {
-          label: "Value",
-          data: [],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.6)',
-            'rgba(54, 162, 235, 0.6)',
-            'rgba(255, 206, 86, 0.6)',
-            'rgba(75, 192, 192, 0.6)',
-            'rgba(153, 102, 255, 0.6)',
-            'rgba(255, 159, 64, 0.6)',
-            'rgba(255, 99, 90, 0.6)',
-            'rgba(100, 162, 235, 0.6)',
-            'rgba(255, 150, 86, 0.6)'
-          ]
-        }
-      ]
-    }
-    chartData.labels = Array.from(data.keys()).map(function(x){return x.replace(/_/g, ' ');});
-    chartData.datasets[0].data = Array.from(data.values());
-    
-
-    var list = [];
-    for (var j = 0; j < chartData.labels.length; j++)
-      list.push({ 'key': chartData.labels[j], 'value': chartData.datasets[0].data[j] });
-
-    list.sort(function (a, b) {
-      return b.value - a.value;
-    });
-
-    for (var k = 0; k < list.length; k++) {
-      chartData.labels[k] = list[k].key;
-      chartData.datasets[0].data[k] = list[k].value;
-    }
-
-    if (limit) {
-      chartData.labels = chartData.labels.slice(0, limit);
-      chartData.datasets[0].data = chartData.datasets[0].data.slice(0, limit);
-    }
-
-    return chartData;
-  }
-
   render() {
     this.cards = {
       "Total Cases": 468451,
@@ -173,40 +108,40 @@ class Dashboard extends Component {
             <div className={this.state.col.two}>
               <ul className="collapsible">
                 <li className="active">
-                  <div className="collapsible-header"><i className="material-icons">pie_chart_outlined</i>Total Cases Per Continent</div>
-                  <div className="collapsible-body"><MultiChart id="world_cases_chart_map" chartData={this.getDataAsChartData(this.state.data.global.continent.cases)} title="Total Cases Per Continent" legendPosition="bottom" /></div>
+                  <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Total Cases Per Continent</div>
+                  <div className="collapsible-body"><MultiChart id="world_cases_chart_map" chartData={this.state.data.global.continent.cases} title="Total Cases Per Continent" legendPosition="bottom" /></div>
                 </li>
                 <li className="">
-                  <div className="collapsible-header"><i className="material-icons">pie_chart_outlined</i>Total Deaths Per Continent</div>
-                  <div className="collapsible-body"><MultiChart id="world_deaths_chart_map" chartData={this.getDataAsChartData(this.state.data.global.continent.deaths)} title="Total Deaths Per Continent" legendPosition="bottom" /></div>
+                  <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Total Deaths Per Continent</div>
+                  <div className="collapsible-body"><MultiChart id="world_deaths_chart_map" chartData={this.state.data.global.continent.deaths} title="Total Deaths Per Continent" legendPosition="bottom" /></div>
                 </li>
                 <li className="">
-                  <div className="collapsible-header"><i className="material-icons">pie_chart_outlined</i>Recent Cases Per Continent</div>
-                  <div className="collapsible-body"><MultiChart id="world_recent_cases_chart_map" chartData={this.getDataAsChartData(this.state.data.global.continent.recentCases)} title="Recent Cases Per Continent" legendPosition="bottom" /></div>
+                  <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Recent Cases Per Continent</div>
+                  <div className="collapsible-body"><MultiChart id="world_recent_cases_chart_map" chartData={this.state.data.global.continent.recentCases} title="Recent Cases Per Continent" legendPosition="bottom" /></div>
                 </li>
                 <li className="">
-                  <div className="collapsible-header"><i className="material-icons">pie_chart_outlined</i>Recent Deaths Per Continent</div>
-                  <div className="collapsible-body"><MultiChart id="world_recent_deaths_chart_map" chartData={this.getDataAsChartData(this.state.data.global.continent.recentDeaths)} title="Recent Deaths Per Continent" legendPosition="bottom" /></div>
+                  <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Recent Deaths Per Continent</div>
+                  <div className="collapsible-body"><MultiChart id="world_recent_deaths_chart_map" chartData={this.state.data.global.continent.recentDeaths} title="Recent Deaths Per Continent" legendPosition="bottom" /></div>
                 </li>
               </ul>
             </div>
             <div className={this.state.col.two}>
               <ul className="collapsible">
                 <li className="active">
-                  <div className="collapsible-header"><i className="material-icons">pie_chart_outlined</i>10 Countries With Highest Total Cases</div>
-                  <div className="collapsible-body"><MultiChart id="world_deaths_chart_map_country" chartData={this.getDataAsChartData(this.state.data.global.country.cases, 10)} title="10 Countries With Highest Total Cases" legendPosition="bottom" /></div>
+                  <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>10 Countries With Highest Total Cases</div>
+                  <div className="collapsible-body"><MultiChart id="world_deaths_chart_map_country" chartData={this.state.data.global.country.cases} limit={10} title="10 Countries With Highest Total Cases" legendPosition="bottom" /></div>
                 </li>
                 <li className="">
-                  <div className="collapsible-header"><i className="material-icons">pie_chart_outlined</i>10 Countries With Highest Total Deaths</div>
-                  <div className="collapsible-body"><MultiChart id="world_recent_cases_chart_map_country" chartData={this.getDataAsChartData(this.state.data.global.country.deaths, 10)} title="10 Countries With Highest Total Deaths" legendPosition="bottom" /></div>
+                  <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>10 Countries With Highest Total Deaths</div>
+                  <div className="collapsible-body"><MultiChart id="world_recent_cases_chart_map_country" chartData={this.state.data.global.country.deaths} limit={10} title="10 Countries With Highest Total Deaths" legendPosition="bottom" /></div>
                 </li>
                 <li className="">
-                  <div className="collapsible-header"><i className="material-icons">pie_chart_outlined</i>10 Countries With Highest Recent Cases</div>
-                  <div className="collapsible-body"><MultiChart id="world_recent_deaths_chart_map_country" chartData={this.getDataAsChartData(this.state.data.global.country.recentCases, 10)} title="10 Countries With Highest Recent Cases" legendPosition="bottom" /></div>
+                  <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>10 Countries With Highest Recent Cases</div>
+                  <div className="collapsible-body"><MultiChart id="world_recent_deaths_chart_map_country" chartData={this.state.data.global.country.recentCases} limit={10} title="10 Countries With Highest Recent Cases" legendPosition="bottom" /></div>
                 </li>
                 <li className="">
-                  <div className="collapsible-header"><i className="material-icons">pie_chart_outlined</i>10 Countries With Highest Recent Deaths</div>
-                  <div className="collapsible-body"><MultiChart id="world_recent_deaths_chart_map_country" chartData={this.getDataAsChartData(this.state.data.global.country.recentDeaths, 10)} title="10 Countries With Highest Recent Deaths" legendPosition="bottom" /></div>
+                  <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>10 Countries With Highest Recent Deaths</div>
+                  <div className="collapsible-body"><MultiChart id="world_recent_deaths_chart_map_country" chartData={this.state.data.global.country.recentDeaths} limit={10} title="10 Countries With Highest Recent Deaths" legendPosition="bottom" /></div>
                 </li>
               </ul>
             </div>
@@ -225,10 +160,30 @@ class Dashboard extends Component {
                 </div>
               </div>
             </div>
+            <InfoCardRow columns={this.state.col.two} cards={this.state.data.country.totalCases} />
+            <InfoCardRow columns={this.state.col.three} cards={this.state.data.country.totalDeaths} />
+          </div >
+          <div className={this.state.col.one}>
+            <ul className="collapsible">
+              <li className="active">
+                <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Cumulative Cases over time for {this.state.country.replace(/_/g, " ")}</div>
+                <div className="collapsible-body"><MultiDateChart id="country_cumulative_cases" color='rgba(43,177,26, 0.6)' chartData={this.state.data.country.cumulative.cases} title="Cumulative Cases" legendPosition="bottom" /></div>
+              </li>
+              <li className="">
+                <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Cumulative Deaths over time for {this.state.country.replace(/_/g, " ")}</div>
+                <div className="collapsible-body"><MultiDateChart id="country_cumulative_deaths" color='rgba(205,175,28, 0.6)' chartData={this.state.data.country.cumulative.deaths} title="Cumulative Deaths" legendPosition="bottom" /></div>
+              </li>
+              <li className="">
+                <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Daily Cases for {this.state.country.replace(/_/g, " ")}</div>
+                <div className="collapsible-body"><MultiDateChart id="country_daily_cases" color='rgba(28,142,205, 0.6)' chartData={this.state.data.country.daily.cases} title="Daily Cases" legendPosition="bottom" /></div>
+              </li>
+              <li className="">
+                <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Daily Deaths for {this.state.country.replace(/_/g, " ")}</div>
+                <div className="collapsible-body"><MultiDateChart id="country_daily_deaths" color='rgba(199,0,57, 0.6)' chartData={this.state.data.country.daily.cases} title="Daily Deaths" legendPosition="bottom" /></div>
+              </li>
+            </ul>
           </div>
-          <InfoCardRow columns={this.state.col.two} cards={this.state.data.country.totalCases} />
-          <InfoCardRow columns={this.state.col.three} cards={this.state.data.country.totalDeaths} />
-        </div >
+        </div>
       </main >
     )
   }

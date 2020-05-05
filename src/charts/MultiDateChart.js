@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Pie, Bar, Line, Polar, Doughnut } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import M from "materialize-css";
 
 
@@ -7,7 +7,7 @@ class MultiChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartData: this.getDataAsChartData(props.chartData, props.limit),
+      chartData: this.getDataAsChartData(props.chartData),
       chart: "1"
     }
   }
@@ -32,48 +32,20 @@ class MultiChart extends Component {
     });
   }
 
-  getDataAsChartData(data, limit) {
+  getDataAsChartData(data) {
     var chartData = {
       labels: [],
       datasets: [
         {
+          backgroundColor: this.props.color,
+          borderWidth: 1,
           label: "Value",
           data: [],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.6)',
-            'rgba(54, 162, 235, 0.6)',
-            'rgba(255, 206, 86, 0.6)',
-            'rgba(75, 192, 192, 0.6)',
-            'rgba(153, 102, 255, 0.6)',
-            'rgba(255, 159, 64, 0.6)',
-            'rgba(255, 99, 90, 0.6)',
-            'rgba(100, 162, 235, 0.6)',
-            'rgba(255, 150, 86, 0.6)'
-          ]
         }
       ]
     }
-    chartData.labels = Array.from(data.keys()).map(function (x) { return x.replace(/_/g, ' '); });
-    chartData.datasets[0].data = Array.from(data.values());
-
-
-    var list = [];
-    for (var j = 0; j < chartData.labels.length; j++)
-      list.push({ 'key': chartData.labels[j], 'value': chartData.datasets[0].data[j] });
-
-    list.sort(function (a, b) {
-      return b.value - a.value;
-    });
-
-    for (var k = 0; k < list.length; k++) {
-      chartData.labels[k] = list[k].key;
-      chartData.datasets[0].data[k] = list[k].value;
-    }
-
-    if (limit) {
-      chartData.labels = chartData.labels.slice(0, limit);
-      chartData.datasets[0].data = chartData.datasets[0].data.slice(0, limit);
-    }
+    chartData.labels = data.keys;
+    chartData.datasets[0].data = data.values;
 
     return chartData;
   }
@@ -95,52 +67,6 @@ class MultiChart extends Component {
       />;
     }
     else if (chart === "2") {
-      return <Pie
-        data={this.state.chartData}
-        options={{
-          title: {
-            display: this.props.displayTitle,
-            text: this.props.title + "- Pie Chart",
-          },
-          legend: {
-            display: this.props.displayLegend,
-            position: this.props.legendPosition
-          }
-        }}
-      />;
-    }
-    else if (chart === "3") {
-      return <Doughnut
-        data={this.state.chartData}
-        options={{
-          cutoutPercentage: 50,
-          title: {
-            display: this.props.displayTitle,
-            text: this.props.title + "- Doughnut Chart",
-          },
-          legend: {
-            display: this.props.displayLegend,
-            position: this.props.legendPosition
-          }
-        }}
-      />;
-    }
-    else if (chart === "4") {
-      return <Polar
-        data={this.state.chartData}
-        options={{
-          title: {
-            display: this.props.displayTitle,
-            text: this.props.title + "- Polar Chart",
-          },
-          legend: {
-            display: this.props.displayLegend,
-            position: this.props.legendPosition
-          }
-        }}
-      />;
-    }
-    else if (chart === "5") {
       return <Line
         data={this.state.chartData}
         options={{
@@ -155,6 +81,54 @@ class MultiChart extends Component {
         }}
       />;
     }
+    else if (chart === "3") {
+      return <Bar
+        data={this.state.chartData}
+        options={{
+          title: {
+            display: this.props.displayTitle,
+            text: this.props.title + "- Line Chart",
+          },
+          legend: {
+            display: false,
+            position: this.props.legendPosition
+          },
+          scales: {
+            xAxes: [{
+              display: true,
+            }],
+            yAxes: [{
+              display: true,
+              type: 'logarithmic',
+            }]
+          }
+        }}
+      />;
+    }
+    else if (chart === "4") {
+      return <Line
+        data={this.state.chartData}
+        options={{
+          title: {
+            display: this.props.displayTitle,
+            text: this.props.title + "- Line Chart",
+          },
+          legend: {
+            display: false,
+            position: this.props.legendPosition
+          },
+          scales: {
+            xAxes: [{
+              display: true,
+            }],
+            yAxes: [{
+              display: true,
+              type: 'logarithmic',
+            }]
+          }
+        }}
+      />;
+    }
   }
 
   render() {
@@ -163,11 +137,10 @@ class MultiChart extends Component {
       <div>
         <div className="input-field col s12">
           <select id={this.props.id + 'select'} onChange={this.handleClick.bind(this)}>
-            <option value="1" defaultValue>{this.props.title}- Bar Chart</option>
-            <option value="2">{this.props.title} - Pie Chart</option>
-            <option value="3">{this.props.title} - Doughnut Chart</option>
-            <option value="4">{this.props.title} - Polar Chart</option>
-            <option value="5">{this.props.title} - Line Chart</option>
+            <option value="1" defaultValue>{this.props.title} - Bar Chart</option>
+            <option value="2">{this.props.title} - Line Chart</option>
+            <option value="3">{this.props.title} - Logrithmic Bar Chart</option>
+            <option value="4">{this.props.title} - Logrithmic Line Chart</option>
           </select>
           <label>Select Chart</label>
         </div>
