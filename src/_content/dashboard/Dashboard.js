@@ -27,7 +27,16 @@ class Dashboard extends Component {
       countriesForAutoComplete: countriesForAutoComplete,
     }
 
-    newState["country"] = countries.join(", ");
+
+    var newCtryArr = [];
+    if (countries.length > 7){
+      newCtryArr = countries.slice(0, 7);
+      newCtryArr.push("etc");
+    } else {
+      newCtryArr = countries
+    }
+  
+    newState["country"] = newCtryArr.join(", ").replace(/_/g, " ");
     newState["chips"] = countries.map(function (country) {
       return {
         tag: country
@@ -153,11 +162,11 @@ class Dashboard extends Component {
               <ul className="collapsible">
                 <li className="active">
                   <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>10 Countries With Highest Total Cases</div>
-                  <div className="collapsible-body"><MultiChart id="world_deaths_chart_map_country" chartData={this.state.data.global.country.cases} limit={10} title="10 Countries With Highest Total Cases" legendPosition="bottom" /></div>
+                  <div className="collapsible-body"><MultiChart id="world_cases_chart_map_country" chartData={this.state.data.global.country.cases} limit={10} title="10 Countries With Highest Total Cases" legendPosition="bottom" /></div>
                 </li>
                 <li className="">
                   <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>10 Countries With Highest Total Deaths</div>
-                  <div className="collapsible-body"><MultiChart id="world_recent_cases_chart_map_country" chartData={this.state.data.global.country.deaths} limit={10} title="10 Countries With Highest Total Deaths" legendPosition="bottom" /></div>
+                  <div className="collapsible-body"><MultiChart id="world_deaths_chart_map_country" chartData={this.state.data.global.country.deaths} limit={10} title="10 Countries With Highest Total Deaths" legendPosition="bottom" /></div>
                 </li>
                 <li className="">
                   <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>10 Countries With Highest Recent Cases</div>
@@ -165,7 +174,7 @@ class Dashboard extends Component {
                 </li>
                 <li className="">
                   <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>10 Countries With Highest Recent Deaths</div>
-                  <div className="collapsible-body"><MultiChart id="world_recent_deaths_chart_map_country" chartData={this.state.data.global.country.recentDeaths} limit={10} title="10 Countries With Highest Recent Deaths" legendPosition="bottom" /></div>
+                  <div className="collapsible-body"><MultiChart id="world_recent_cases_chart_map_country" chartData={this.state.data.global.country.recentDeaths} limit={10} title="10 Countries With Highest Recent Deaths" legendPosition="bottom" /></div>
                 </li>
               </ul>
             </div>
@@ -201,7 +210,7 @@ class Dashboard extends Component {
               </li>
               <li className="">
                 <div className="collapsible-header"><i className="material-icons">arrow_drop_down</i>Daily Deaths for {this.state.country.replace(/_/g, " ")}</div>
-                <div className="collapsible-body"><MultiDateChart id="country_daily_deaths" color='rgba(199,0,57, 0.6)' chartData={this.state.data.country.daily.cases} titleDD="Daily Deaths" title={"Daily Deaths (" + this.state.country.replace(/_/g, " ") + ")"} legendPosition="bottom" /></div>
+                <div className="collapsible-body"><MultiDateChart id="country_daily_deaths" color='rgba(199,0,57, 0.6)' chartData={this.state.data.country.daily.deaths} titleDD="Daily Deaths" title={"Daily Deaths (" + this.state.country.replace(/_/g, " ") + ")"} legendPosition="bottom" /></div>
               </li>
             </ul>
           </div>
