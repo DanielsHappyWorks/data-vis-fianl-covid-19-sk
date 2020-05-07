@@ -48,6 +48,7 @@ const Data = {
         }
       }
     }
+    console.log(this.data)
   },
 
   getData: function () {
@@ -146,12 +147,20 @@ const Data = {
       transformedElem.country = element[0].countriesAndTerritories;
       transformedElem.latLong = [element[0].latitude, element[0].longitude];
       transformedElem.totalCases = cases.get(element[0].countriesAndTerritories)
+      if(!transformedElem.totalCases)
+        transformedElem.totalCases = 0;
       totalCasesTracker.push(transformedElem.totalCases);
-      transformedElem.totalDeaths = deaths.get(element[0].countriesAndTerritories)
+      transformedElem.totalDeaths = deaths.get(element[0].countriesAndTerritories);
+      if(!transformedElem.totalDeaths)
+        transformedElem.totalDeaths = 0;
       totalDeathsTracker.push(transformedElem.totalDeaths);
       transformedElem.recentCases = recentCases.get(element[0].countriesAndTerritories)
+      if(!transformedElem.recentCases)
+        transformedElem.recentCases = 0;
       recentCasesTracker.push(transformedElem.recentCases);
       transformedElem.recentDeaths = deathsCases.get(element[0].countriesAndTerritories)
+      if(!transformedElem.recentDeaths)
+        transformedElem.recentDeaths = 0;
       recentDeathsTracker.push(transformedElem.recentDeaths);
       worldData.push(transformedElem)
     });
