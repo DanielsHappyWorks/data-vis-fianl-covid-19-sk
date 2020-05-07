@@ -187,7 +187,7 @@ class Dashboard extends Component {
             <div className="col s12">
               <div className="row">
                 <div className="input-field col s12">
-                  <div class="chips chips-autocomplete"></div>
+                  <div className="chips chips-autocomplete"></div>
                 </div>
               </div>
             </div>

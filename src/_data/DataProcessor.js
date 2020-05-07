@@ -77,12 +77,25 @@ const Data = {
   },
 
   sortByData: function (valMap) {
-    var keys = Array.from(valMap.keys()).reverse();
-    var values = Array.from(valMap.values()).reverse();
+    var keys = Array.from(valMap.keys());
+    var values = Array.from(valMap.values());
+
+    var kvAsObj = []
+    keys.forEach((key, i) => kvAsObj[i] = {key: key, value: values[i]});
+
+    kvAsObj.sort(function(a,b){
+      var aAsDataVals = a.key.split("/");
+      var bAsDataVals = b.key.split("/");
+      return new Date(aAsDataVals[2], aAsDataVals[1] - 1, aAsDataVals[0]) - new Date(bAsDataVals[2], bAsDataVals[1] - 1, bAsDataVals[0]);
+    });
 
     return {
-      keys: keys,
-      values: values,
+      keys: kvAsObj.map(function(i) {
+        return i.key;
+      }),
+      values: kvAsObj.map(function(i) {
+        return i.value;
+      }),
     };
   },
 
