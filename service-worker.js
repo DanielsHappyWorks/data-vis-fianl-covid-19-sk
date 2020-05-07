@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/data-vis-fianl-covid-19-sk/precache-manifest.f5dc878bc70e7b576ceb4b3afb463038.js"
+  "/data-vis-fianl-covid-19-sk/precache-manifest.7ea8d78fafc21e19c106febd0c72bdf5.js"
 );
 
 self.addEventListener('message', (event) => {
